@@ -33,6 +33,10 @@ public class Player {
         hand.add(card);
     }
     
+    public void clearHand(){
+        hand.clear();
+    }
+    
     //ChatGPT helped with calculating the hands
     public int calculateHandScore() {
         int score = 0;
