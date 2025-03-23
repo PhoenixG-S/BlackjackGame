@@ -25,9 +25,12 @@ public class BlackjackGame {
         checkInput = new CheckInput();  
     }
 
-    public void startGame() {
+    public void playGame() {
 
         while (true) {
+            
+            resetGame();
+            
             System.out.println("Welcome to Blackjack, " + player.getName() + "!\n");
 
             player.addCard(deck.dealCard());
@@ -55,6 +58,12 @@ public class BlackjackGame {
                 break;
             }
         }
+    }
+    
+    private void resetGame() {
+        player.clearHand();
+        dealer.clearHand();  
+        deck.reShuffle();    
     }
 
     private void playerTurn() {
@@ -98,10 +107,7 @@ public class BlackjackGame {
     }
 
     private boolean askToPlayAgain() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Do you want to play again? (Y/N): ");
-        String response = scanner.next().toUpperCase();
-        return response.equals("Y");
+        return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
     }
 
     public static void main(String[] args) {
@@ -110,6 +116,6 @@ public class BlackjackGame {
         String playerName = scanner.nextLine();
 
         BlackjackGame game = new BlackjackGame(playerName);
-        game.startGame();
+        game.playGame();
     }
 }
