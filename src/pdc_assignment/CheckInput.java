@@ -32,4 +32,23 @@ public class CheckInput {
     }
 }
     
+    public boolean playAgainResponse(String message){
+        
+        while(true){
+            System.out.print(message);
+            String Response = scanner.next().trim().toUpperCase();
+            
+            //netbeans improved this. Made it a rule switch.
+            switch (Response) {
+                case "Y" -> {
+                    return true;
+                }
+                case "N" -> {
+                    return false;
+                }
+                default -> System.out.println("Invalid input! Please enter 'Y' for Yes or 'N' for 'No.");
+            }
+        }
+    }
+    
 }
