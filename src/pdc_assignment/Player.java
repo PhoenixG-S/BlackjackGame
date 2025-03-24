@@ -58,6 +58,10 @@ public class Player {
         return score;
     }
     
+    public boolean isBusted() {
+        return calculateHandScore() > 21;
+    }
+    
     @Override
     public String toString() {
         return name + "'s hand: " + hand.toString() + " || Total: " + calculateHandScore();
