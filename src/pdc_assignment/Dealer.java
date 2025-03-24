@@ -19,11 +19,13 @@ public class Dealer extends Player{
     }
     
     public void playTurn(Deck deck) {
-        // Dealer plays following house rules: hits until 17 or more
-        while (calculateHandScore() < 17) {
-            addCard(deck.dealCard());
-            System.out.println(getName() + " draws a card: " + getHand().get(getHand().size() - 1));
-        }
-    
+  
+    while (calculateHandScore() < 17) {
+        System.out.println(getName() + " has a score of " + calculateHandScore() + " and must hit.");
+        addCard(deck.dealCard());
+        System.out.println(getName() + " draws a card: " + getHand().get(getHand().size() - 1));
+    }
+
+    System.out.println(getName() + "'s full hand: " + getHand() + " || Total: " + calculateHandScore());
     }
 }
