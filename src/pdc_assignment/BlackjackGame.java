@@ -82,14 +82,9 @@ public class BlackjackGame {
     }
 
     private void dealerTurn() {
-        System.out.println("\nDealer reveals their hand:");
-        System.out.println(dealer);
-
-        while (dealer.calculateHandScore() < 17) {
-            dealer.addCard(deck.dealCard());
-            System.out.println(dealer);
-        }
-    }
+    System.out.println("\nDealer reveals their hand:");
+    dealer.playTurn(deck);
+}
 
     private void determineWinner() {
         int playerScore = player.calculateHandScore();
