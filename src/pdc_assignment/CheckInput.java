@@ -27,7 +27,7 @@ public class CheckInput {
         } 
         
         catch (IllegalArgumentException e) {
-            System.out.println("Invalid input! Please enter 'H' (Hit) or 'S' (Stand).");
+            System.out.println("Invalid input! Please enter 'H' for Hit or 'S' for Stand).");
         }
     }
 }
