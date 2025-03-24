@@ -41,15 +41,15 @@ public class BlackjackGame {
             System.out.println(player);
             dealer.showFirstCard();
 
-            playerTurn();
-
-            if (player.calculateHandScore() > 21) {
+            if (!playerTurn()) { 
                 System.out.println("You busted! Dealer wins.");
-            } else {
-
-                dealerTurn();
-                determineWinner();
+                if (!askToPlayAgain()) break;
+                continue;
             }
+            
+            dealerTurn();
+
+            determineWinner();
 
             deck.reShuffle();
 
@@ -66,20 +66,18 @@ public class BlackjackGame {
         deck.reShuffle();    
     }
 
-    private void playerTurn() {
-        while (player.calculateHandScore() < 21) {
+    private boolean playerTurn() {
+        while (true) {
             CheckInput.Choice choice = checkInput.getChoice("Hit (H) or Stand (S)? ");
-            
             if (choice == CheckInput.Choice.H) {
                 player.addCard(deck.dealCard());
                 System.out.println(player);
+                if (player.isBusted()) {
+                    return false;
+                }
             } else {
-                break;
+                return true;
             }
-        }
-
-        if (player.calculateHandScore() > 21) {
-            System.out.println("You busted! Dealer wins.");
         }
     }
 
@@ -107,7 +105,7 @@ public class BlackjackGame {
     }
 
     private boolean askToPlayAgain() {
-        return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
+        return checkInput.playAgainResponse("Do you want to play again? ('Y' for Yes or 'N' for No): ");
     }
 
     public static void main(String[] args) {
