@@ -16,14 +16,13 @@ public class BettingSystem {
     private double currentBet;
     private boolean doubledDown;
 
-   
+
     public BettingSystem(double minimumBet, double playerBalance) {
         this.minimumBet = minimumBet;
         this.playerBalance = playerBalance;
         this.currentBet = 0;
         this.doubledDown = false;
     }
-
 
     public boolean placeBet(double amount) {
         if (amount < minimumBet) {
@@ -38,6 +37,7 @@ public class BettingSystem {
         playerBalance -= amount;
         return true;
     }
+
 
     public void payout(boolean isWin) {
         if (isWin) {
@@ -88,4 +88,14 @@ public class BettingSystem {
     public boolean hasDoubledDown() {
         return doubledDown;
     }
+    
+    public void addFunds(double amount) {
+    if (amount > 0) {
+        playerBalance += amount;
+        System.out.println("New balance: $" + playerBalance);
+    } else {
+        System.out.println("Invalid amount! Must be greater than 0.");
+    }
+}
+
 }
