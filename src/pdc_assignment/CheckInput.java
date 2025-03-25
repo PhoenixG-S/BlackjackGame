@@ -8,30 +8,26 @@ public class CheckInput {
     public enum Choice {
         H, S;
     }
-
+    
     public double getBetAmount(String message) {
-        double betAmount = 0;
-        boolean validInput = false;
-
-        while (!validInput) {
-            System.out.print(message); 
+        double amount = 0;
+        while (true) {
+            System.out.print(message);
+            String input = scanner.nextLine().trim();
             try {
-                betAmount = scanner.nextDouble();  
-
-          
-                if (betAmount <= 0) {
-                    System.out.println("Bet must be greater than 0.");
+                amount = Double.parseDouble(input);
+                if (amount <= 0) {
+                    System.out.println("Invalid input! Please enter a positive amount (number).");
                 } else {
-                    validInput = true;  
+                    return amount; 
                 }
-            } catch (Exception e) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                scanner.next();  
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a valid amount (number).");
             }
         }
-
-        return betAmount; 
     }
+
+   
 
 
     public Choice getChoice(String message) {
