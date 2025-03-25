@@ -130,10 +130,24 @@ public class BlackjackGame {
             System.out.println("It's a tie!");
         }
     }
-
-    private boolean askToPlayAgain() {
+private boolean askToPlayAgain() {
+    if (bettingSystem.getPlayerBalance() > 0) {
         return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
     }
+
+    System.out.println("You have run out of money!");
+    boolean addMoreMoney = checkInput.playAgainResponse("Would you like to add more money? (Y/N): ");
+
+    if (addMoreMoney) {
+        double newAmount = checkInput.getBetAmount("Enter the new amount you want to add: ");
+        bettingSystem.addFunds(newAmount);  
+        return true;
+    } else {
+        return false;  
+    }
+}
+
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -149,4 +163,3 @@ public class BlackjackGame {
         scanner.close();
     }
 }
-
