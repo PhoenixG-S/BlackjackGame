@@ -43,9 +43,7 @@ public class BettingSystem {
         if (isWin) {
             playerBalance += currentBet * 2;  
             System.out.println("You win! You earned: $" + currentBet);
-        } else {
-            System.out.println("You lose this round.");
-        }
+        } 
         resetBet();  
     }
 
