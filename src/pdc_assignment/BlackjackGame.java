@@ -137,11 +137,12 @@ public class BlackjackGame {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        CheckInput checkInput = new CheckInput();
+        
         System.out.print("Enter your name: ");
         String playerName = scanner.nextLine();
 
-        System.out.print("Enter the amount you have: ");
-        double initialBalance = scanner.nextDouble();
+        double initialBalance = checkInput.getBetAmount("Enter the amount you have: ");
 
         BlackjackGame game = new BlackjackGame(playerName, initialBalance);
         game.playGame();
