@@ -66,7 +66,7 @@ public class BlackjackGame {
     private double getBetAmount() {
         double betAmount = 0;
         while (true) {
-            System.out.println("Enter your bet: ");
+            System.out.print("Enter your bet: ");
             betAmount = checkInput.getBetAmount("");
             if (betAmount <= 0) {
                 System.out.println("Bet must be greater than 0.");
