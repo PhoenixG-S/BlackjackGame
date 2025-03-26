@@ -27,27 +27,25 @@ public class CheckInput {
         }
     }
 
-   
 
-
- public Choice getChoice(String message) {
-    while (true) {
-        System.out.print(message);
-        String input = scanner.nextLine().trim().toUpperCase(); 
+    public Choice getChoice(String message) {
+        while (true) {
+            System.out.print(message);
+            String input = scanner.nextLine().trim().toUpperCase(); 
 
         try {
             return Choice.valueOf(input);  
-        } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
             System.out.println("Invalid input! Please enter 'H' (Hit) or 'S' (Stand).");
         }
     }
 }
 
 
-  public boolean playAgainResponse(String message) {
-    while (true) {
-        System.out.print(message);
-        String response = scanner.nextLine().trim().toUpperCase(); 
+    public boolean playAgainResponse(String message) {
+        while (true) {
+            System.out.print(message);
+            String response = scanner.nextLine().trim().toUpperCase(); 
 
         if (response.equals("Y")) {
             return true;
