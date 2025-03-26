@@ -56,5 +56,6 @@ public class CheckInput {
         } else {
             System.out.println("Invalid input! Please enter 'Y' for Yes or 'N' for No.");
         }
+      }
     }
 }
