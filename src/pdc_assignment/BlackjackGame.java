@@ -46,7 +46,8 @@ public class BlackjackGame {
             playerTurn();
 
             if (player.calculateHandScore() > 21) {
-             
+                
+                FileIO.updateStats(player.getName(), false, false);
                 bettingSystem.payout(false); 
               
             } else {
@@ -57,6 +58,7 @@ public class BlackjackGame {
             deck.reShuffle();
 
             if (!askToPlayAgain()) {
+                showFinalStats();
                 System.out.println("Thanks for playing! Final balance: $" + bettingSystem.getPlayerBalance());
                 break;
             }
@@ -119,30 +121,51 @@ public class BlackjackGame {
 
         if (dealerScore > 21 || playerScore > dealerScore) {
             System.out.println("Congratulations! You win!");
+            FileIO.updateStats(player.getName(), true, false);
             bettingSystem.payout(true);  
         } else if (playerScore < dealerScore) {
             System.out.println("Dealer wins. Better luck next time.");
+            FileIO.updateStats(player.getName(), false, false);
             bettingSystem.payout(false);  
         } else {
             System.out.println("It's a tie!");
+            FileIO.updateStats(player.getName(), false, true);
         }
     }
-private boolean askToPlayAgain() {
-    if (bettingSystem.getPlayerBalance() > 0) {
-        return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
-    }
+    
+    private boolean askToPlayAgain() {
+        if (bettingSystem.getPlayerBalance() > 0) {
+            return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
+        }
 
-    System.out.println("You have run out of money!");
-    boolean addMoreMoney = checkInput.playAgainResponse("Would you like to add more money? (Y/N): ");
+        System.out.println("You have run out of money!");
+        boolean addMoreMoney = checkInput.playAgainResponse("Would you like to add more money? (Y/N): ");
 
-    if (addMoreMoney) {
-        double newAmount = checkInput.getBetAmount("Enter the new amount you want to add: ");
-        bettingSystem.addFunds(newAmount);  
-        return true;
-    } else {
-        return false; 
+        if (addMoreMoney) {
+            double newAmount = checkInput.getBetAmount("Enter the new amount you want to add: ");
+            bettingSystem.addFunds(newAmount);  
+            return true;
+        } else {
+            return false; 
+        }
     }
-}
+    
+    private void showFinalStats(){
+        
+        String stats = FileIO.getPlayerStats(player.getName());
+        
+        if(stats != null){
+            System.out.println("\nFinal Stats for " + player.getName());
+            String[] parts = stats.split(" ");
+            System.out.println("Wins = " + parts[1]);
+            System.out.println("Losses = " + parts[2]);
+            System.out.println("Ties = " + parts[3]);
+        }
+        
+        else{
+            System.out.println("\nStats were not found for " + player.getName());
+        }
+    }
 
 
 
