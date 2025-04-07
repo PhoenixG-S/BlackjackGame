@@ -40,7 +40,7 @@ public class FileIO {
         return null;
     }
     
-    public static void updateStats(String playerName, boolean win, boolean tie) {
+    public static void updatePlayerStats(String playerName, boolean win, boolean tie) {
         
         File file = new File(FILE_NAME);
         List<String> fullStats = new ArrayList<>();
