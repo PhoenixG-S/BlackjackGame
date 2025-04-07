@@ -123,11 +123,15 @@ public class BlackjackGame {
             System.out.println("Congratulations! You win!");
             FileIO.updatePlayerStats(player.getName(), true, false);
             bettingSystem.payout(true);  
-        } else if (playerScore < dealerScore) {
+        } 
+        
+        else if (playerScore < dealerScore) {
             System.out.println("Dealer wins. Better luck next time.");
             FileIO.updatePlayerStats(player.getName(), false, false);
             bettingSystem.payout(false);  
-        } else {
+        } 
+        
+        else {
             System.out.println("It's a tie!");
             FileIO.updatePlayerStats(player.getName(), false, true);
         }
@@ -145,7 +149,9 @@ public class BlackjackGame {
             double newAmount = checkInput.getBetAmount("Enter the new amount you want to add: ");
             bettingSystem.addFunds(newAmount);  
             return true;
-        } else {
+        } 
+        
+        else {
             return false; 
         }
     }
