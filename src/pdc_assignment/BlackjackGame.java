@@ -47,7 +47,7 @@ public class BlackjackGame {
 
             if (player.calculateHandScore() > 21) {
                 
-                FileIO.updateStats(player.getName(), false, false);
+                FileIO.updatePlayerStats(player.getName(), false, false);
                 bettingSystem.payout(false); 
               
             } else {
@@ -121,15 +121,15 @@ public class BlackjackGame {
 
         if (dealerScore > 21 || playerScore > dealerScore) {
             System.out.println("Congratulations! You win!");
-            FileIO.updateStats(player.getName(), true, false);
+            FileIO.updatePlayerStats(player.getName(), true, false);
             bettingSystem.payout(true);  
         } else if (playerScore < dealerScore) {
             System.out.println("Dealer wins. Better luck next time.");
-            FileIO.updateStats(player.getName(), false, false);
+            FileIO.updatePlayerStats(player.getName(), false, false);
             bettingSystem.payout(false);  
         } else {
             System.out.println("It's a tie!");
-            FileIO.updateStats(player.getName(), false, true);
+            FileIO.updatePlayerStats(player.getName(), false, true);
         }
     }
     
