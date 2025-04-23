@@ -48,18 +48,16 @@ public class BettingSystem {
     }
 
 
-    public void doubleDown() {
-        if (doubledDown) {
-            throw new IllegalStateException("You cannot double down twice in the same round.");
-        }
-        if (currentBet * 2 > playerBalance) {
-            throw new IllegalArgumentException("Insufficient balance to double down.");
-        }
+  public void doubleDown() {
+    if (playerBalance >= currentBet) {
         playerBalance -= currentBet;
         currentBet *= 2;
-        doubledDown = true;
         System.out.println("You doubled down! Your new bet is: $" + currentBet);
+    } else {
+        throw new IllegalStateException("Not enough balance to double down.");
     }
+}
+
 
 
     public void resetBet() {
@@ -95,5 +93,6 @@ public class BettingSystem {
         System.out.println("Invalid amount! Must be greater than 0.");
     }
 }
+
 
 }
