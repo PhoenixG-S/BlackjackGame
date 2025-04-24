@@ -2,6 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+
 package pdc_assignment;
 
 /**
@@ -48,7 +50,7 @@ public class BettingSystem {
     }
 
 
-  public void doubleDown() {
+    public void doubleDown() {
     if (playerBalance >= currentBet) {
         playerBalance -= currentBet;
         currentBet *= 2;
@@ -93,6 +95,6 @@ public class BettingSystem {
         System.out.println("Invalid amount! Must be greater than 0.");
     }
 }
-
+    
 
 }
