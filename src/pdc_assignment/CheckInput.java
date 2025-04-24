@@ -2,58 +2,60 @@ package pdc_assignment;
 import java.util.Scanner;
 
 public class CheckInput {
+    public enum Choice { H, S, D }
 
-    private final Scanner scanner = new Scanner(System.in);
-
-    public enum Choice {
-        H, S;
-    }
-    
-    public double getBetAmount(String message) {
+    public double getBetAmount(String prompt) {
+        Scanner scanner = new Scanner(System.in);
         double amount = 0;
         while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine().trim();
+            if (!prompt.isEmpty()) {
+                System.out.print(prompt);
+            }
             try {
-                amount = Double.parseDouble(input);
-                if (amount <= 0) {
-                    System.out.println("Invalid input! Please enter a positive amount (number).");
-                } else {
-                    return amount; 
-                }
+                amount = Double.parseDouble(scanner.nextLine());
+                if (amount >= 0) return amount;
+                System.out.println("Amount must be positive.");
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a valid amount (number).");
+                System.out.println("Invalid input.");
             }
         }
     }
 
-
-    public Choice getChoice(String message) {
+    public Choice getChoice(String prompt) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine().trim().toUpperCase(); 
-
-        try {
-            return Choice.valueOf(input);  
-            } catch (IllegalArgumentException e) {
-            System.out.println("Invalid input! Please enter 'H' (Hit) or 'S' (Stand).");
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim().toUpperCase();
+            switch (input) {
+                case "H": return Choice.H;
+                case "S": return Choice.S;
+                default: System.out.println("Invalid input. Enter H or S.");
+            }
         }
     }
-}
 
-
-    public boolean playAgainResponse(String message) {
+    public Choice getDoubleDownChoice(String prompt) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print(message);
-            String response = scanner.nextLine().trim().toUpperCase(); 
-
-        if (response.equals("Y")) {
-            return true;
-        } else if (response.equals("N")) {
-            return false;
-        } else {
-            System.out.println("Invalid input! Please enter 'Y' for Yes or 'N' for No.");
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim().toUpperCase();
+            switch (input) {
+                case "H": return Choice.H;
+                case "S": return Choice.S;
+                case "D": return Choice.D;
+                default: System.out.println("Invalid input. Enter H, S, or D.");
+            }
         }
-      }
+    }
+
+    public boolean playAgainResponse(String prompt) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("Y")) return true;
+            if (input.equals("N")) return false;
+            System.out.println("Invalid input. Enter Y or N.");
+        }
     }
 }
