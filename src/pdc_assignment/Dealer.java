@@ -14,10 +14,12 @@ public class Dealer extends Player{
         super("Dealer");
     }
     
+    //Displays only the first card in the dealers hamd.
     public void showFirstCard(){
         System.out.println(getName() + "'s First card: " + getHand().get(0));
     }
     
+    //The dealer will keeping getting new cards as long as their score is under 17.
     public void playTurn(Deck deck) {
   
     while (calculateHandScore() < 17) {
