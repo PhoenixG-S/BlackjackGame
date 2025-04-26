@@ -8,6 +8,7 @@ package pdc_assignment;
  *
  * @author phoen
  */
+
 public class Card {
     
     private String rank;
