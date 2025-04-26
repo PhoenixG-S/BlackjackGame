@@ -13,6 +13,7 @@ import java.util.Stack;
  */
 public class Deck {
     
+    //Stack to hold the cards. Used a stack to simulate a real deck of cards.
     private Stack<Card> cards;
     
     public Deck(){
@@ -22,6 +23,7 @@ public class Deck {
         
     }
     
+    //Fills the deck with the standard 52 playing cards.
     private void createDeck(){
         
         String[] suits = { "Hearts", "Diamonds", "Clubs", "Spades"};
@@ -35,6 +37,7 @@ public class Deck {
         }
     }
     
+    //Gives the cards value in blackjack game form.
     //netbeans improved this code
     public int getCardValue(String rank){
         
@@ -45,10 +48,12 @@ public class Deck {
         };
     }
     
+    //Shuffles the deck.
     private void shuffleDeck(){
         Collections.shuffle(cards);
     }
     
+    //Clears the old deck, creates a new one and shuffles that one.
     public void reShuffle(){
         cards.clear();
         createDeck();
@@ -56,7 +61,6 @@ public class Deck {
         
     }
     
-    //ChatGPT corrected this code
     public Card dealCard(){
         
         if(!cards.isEmpty()){
