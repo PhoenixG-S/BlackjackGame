@@ -1,9 +1,22 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package pdc_assignment;
+
 import java.util.Scanner;
 
+/**
+ *
+ * @author phoen
+ */
+
 public class CheckInput {
+    
+    //Enum for all the choices the player has: Hit, Stand, DoubleDown.
     public enum Choice { H, S, D }
 
+    //Get a valid bet amount(not negative).
     public double getBetAmount(String prompt) {
         Scanner scanner = new Scanner(System.in);
         double amount = 0;
@@ -21,6 +34,7 @@ public class CheckInput {
         }
     }
 
+    //Gets the users choice either Hit or Stand.
     public Choice getChoice(String prompt) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -33,7 +47,8 @@ public class CheckInput {
             }
         }
     }
-
+    
+    //Gets the users choice either Hit, Stand or DoubleDown
     public Choice getDoubleDownChoice(String prompt) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -48,12 +63,14 @@ public class CheckInput {
         }
     }
 
+    //Asks the user if they would like to play again.
     public boolean playAgainResponse(String prompt) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print(prompt);
             String input = scanner.nextLine().trim().toUpperCase();
             if (input.equals("Y")) return true;
+            
             if (input.equals("N")) return false;
             System.out.println("Invalid input. Enter Y or N.");
         }
