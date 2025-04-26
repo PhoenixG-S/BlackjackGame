@@ -13,17 +13,20 @@ import java.util.*;
  */
 public class FileIO {
     
+    //The file where all the stats are saved.
     private static final String FILE_NAME = "playerStats.txt";
     
-    
+    //Gets the stats line for a given player from the file.
     public static String getPlayerStats(String playerName) {
         
         File file = new File(FILE_NAME);
         
+        //If the file doesnt exist, returns null.
         if (!file.exists()){
             return null;
         }
-
+        
+        //Read each line from the file and try find the right player name.
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
 
@@ -37,9 +40,10 @@ public class FileIO {
             e.printStackTrace();
         }
 
-        return null;
+        return null; //The player is not found.
     }
     
+    //Update the players stats in the file. If its a new player, add them to the file.
     public static void updatePlayerStats(String playerName, boolean win, boolean tie) {
         
         File file = new File(FILE_NAME);
@@ -54,6 +58,7 @@ public class FileIO {
 
                 while ((line = reader.readLine()) != null) {
                     
+                    //Update the win/loss/tie count.
                     String[] parts = line.split(" ");
                     if (parts[0].equalsIgnoreCase(playerName)) {
                         int wins = Integer.parseInt(parts[1]);
@@ -76,7 +81,8 @@ public class FileIO {
 
                 reader.close();
             }
-
+            
+            //If a player was not found, add a new player in.
             if (!found) {
                 int wins = 0;
                 int losses = 0;
@@ -92,7 +98,8 @@ public class FileIO {
 
                 fullStats.add(playerName + " " + wins + " " + losses + " " + ties);
             }
-
+            
+            //Write the updated stats to the file.
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             for (String stat : fullStats) {
                 writer.write(stat);
