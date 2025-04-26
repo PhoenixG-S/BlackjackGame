@@ -21,6 +21,7 @@ public class Player {
         this.hand = new ArrayList<>();
     }
     
+    //Getter methods.
     public String getName(){
         return name;
     }
@@ -29,15 +30,18 @@ public class Player {
         return hand;
     }
     
+    //Add a card to the players hand.
     public void addCard(Card card){
         hand.add(card);
     }
     
+    //Clear the players hand 
     public void clearHand(){
         hand.clear();
     }
     
-    //ChatGPT helped with calculating the hands
+    //Calculate the total score of the players hand.
+    //Aces are counted as 11 but can also be a 1 to avoid the player busting.
     public int calculateHandScore() {
         int score = 0;
         int aceCount = 0;
@@ -49,7 +53,8 @@ public class Player {
                 aceCount++;
             }
         }
-
+        
+        //Adjusts whether player will bust or not.
         while (score > 21 && aceCount > 0) {
             score -= 10;
             aceCount--;
@@ -58,6 +63,7 @@ public class Player {
         return score;
     }
     
+    //Check if player has busted.
     public boolean isBusted() {
         return calculateHandScore() > 21;
     }
