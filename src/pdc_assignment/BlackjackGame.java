@@ -20,7 +20,8 @@ public class BlackjackGame {
     private Dealer dealer;
     private CheckInput checkInput;
     private BettingSystem bettingSystem;
-
+    
+    //Constructor initializes game components.
     public BlackjackGame(String playerName, double initialBalance) {
         deck = new Deck();
         player = new Player(playerName);  
@@ -28,7 +29,8 @@ public class BlackjackGame {
         checkInput = new CheckInput();
         bettingSystem = new BettingSystem(0.0, initialBalance); 
     }
-
+    
+    //The main game loop.
     public void playGame() {
         while (true) {
             resetGame();
@@ -39,25 +41,26 @@ public class BlackjackGame {
             double betAmount = getBetAmount();
             bettingSystem.placeBet(betAmount);  
             
+            //The initial deal: two cards to player and the dealer.
             player.addCard(deck.dealCard());
             player.addCard(deck.dealCard());
             dealer.addCard(deck.dealCard());
             dealer.addCard(deck.dealCard());
 
             System.out.println(player);
-            dealer.showFirstCard();
+            dealer.showFirstCard(); //Shows only one dealer card
 
-            playerTurn();
+            playerTurn(); //Player makes a decision.
 
             if (player.calculateHandScore() > 21) {
                 FileIO.updatePlayerStats(player.getName(), false, false);
                 bettingSystem.payout(false); 
             } else {
-                dealerTurn();
-                determineWinner();
+                dealerTurn(); //Dealer makes a decision.
+                determineWinner(); //Compare the two hands and determine the outcome.
             }
 
-            deck.reShuffle();
+            deck.reShuffle(); //Shuffle the deck for the next round
 
             if (!askToPlayAgain()) {
                 showFinalStats();
@@ -66,7 +69,8 @@ public class BlackjackGame {
             }
         }
     }
-
+    
+    //Gets the player to enter a valid amount to bet.
     private double getBetAmount() {
         double betAmount = 0;
         while (true) {
@@ -82,13 +86,15 @@ public class BlackjackGame {
         }
         return betAmount;
     }
-
+    
+    //Resets player and dealers hands.
     private void resetGame() {
         player.clearHand();
         dealer.clearHand();
         deck.reShuffle();
     }
 
+    //The player makes their decision between hit, stand, and double down.
     private void playerTurn() {
         boolean doubledDown = false;
 
@@ -103,17 +109,18 @@ public class BlackjackGame {
                     player.addCard(deck.dealCard());
                     System.out.println(player);
                     doubledDown = true;
-                    break;
+                    break; //Player must stand after double down.
                 } else {
-                    break;
+                    break; //Stand.
                 }
             } else {
+                //This is just the regular hit or stand (no double down).
                 CheckInput.Choice choice = checkInput.getChoice("Hit (H) or Stand (S)? ");
                 if (choice == CheckInput.Choice.H) {
                     player.addCard(deck.dealCard());
                     System.out.println(player);
                 } else {
-                    break;
+                    break; //Stand.
                 }
             }
         }
@@ -126,6 +133,7 @@ public class BlackjackGame {
         }
     }
 
+    //The dealers actions are determined here. following blackjack rules.
     private void dealerTurn() {
         System.out.println("\nDealer reveals their hand:");
         System.out.println(dealer);
@@ -136,6 +144,7 @@ public class BlackjackGame {
         }
     }
 
+    //Compares scores and determines the outcome.
     private void determineWinner() {
         int playerScore = player.calculateHandScore();
         int dealerScore = dealer.calculateHandScore();
@@ -154,6 +163,7 @@ public class BlackjackGame {
         }
     }
 
+    //Asks the user if they want to play another round.
     private boolean askToPlayAgain() {
         if (bettingSystem.getPlayerBalance() > 0) {
             return checkInput.playAgainResponse("Do you want to play again? (Y/N): ");
@@ -171,6 +181,7 @@ public class BlackjackGame {
         }
     }
 
+    //Dsiplays the players statistics from current and previous games played.
     private void showFinalStats(){
         String stats = FileIO.getPlayerStats(player.getName());
 
@@ -185,6 +196,7 @@ public class BlackjackGame {
         }
     }
 
+    //Main method to start the game.
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CheckInput checkInput = new CheckInput();
