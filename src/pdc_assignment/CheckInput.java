@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 public class CheckInput {
     public enum Choice { H, S, D }
+    
+    private static final Scanner scanner = new Scanner(System.in);
 
     public double getBetAmount(String prompt) {
-        Scanner scanner = new Scanner(System.in);
         double amount = 0;
         while (true) {
             if (!prompt.isEmpty()) {
