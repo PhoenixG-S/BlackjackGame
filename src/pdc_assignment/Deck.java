@@ -61,19 +61,17 @@ public class Deck {
         
     }
     
-    public Card dealCard(){
-        
-        if(!cards.isEmpty()){
-            return cards.pop();
+    public Card dealCard() {
+        if (!cards.isEmpty()) {
+            return cards.pop();  //Return and remove the top card.
         }
-        return null;
+        System.out.println("Deck is empty, reshuffling...");
+        reShuffle(); //Reshuffle if the deck is empty.
+        return dealCard(); //Try to deal again after reshuffling.
     }
     
     public int cardsLeft(){
         return cards.size();
     }
-    
-    
-    
-    
+  
 }
