@@ -37,6 +37,7 @@ public class FileIO {
                 }
             }
         } catch (IOException e) {
+            System.out.println("Error: Could not read the stats file.");
             e.printStackTrace();
         }
 
