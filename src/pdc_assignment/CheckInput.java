@@ -6,7 +6,7 @@ package pdc_assignment;
 import java.util.Scanner;
 
 public class CheckInput {
-    public enum Choice { H, S, D }
+    public enum Choice { H, S, D, Q }
     
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -34,6 +34,7 @@ public class CheckInput {
             switch (input) {
                 case "H": return Choice.H;
                 case "S": return Choice.S;
+                case "Q": return Choice.Q;
                 default: System.out.println("Invalid input. Enter H or S.");
             }
         }
@@ -48,6 +49,7 @@ public class CheckInput {
                 case "H": return Choice.H;
                 case "S": return Choice.S;
                 case "D": return Choice.D;
+                case "Q": return Choice.Q;
                 default: System.out.println("Invalid input. Enter H, S, or D.");
             }
         }
