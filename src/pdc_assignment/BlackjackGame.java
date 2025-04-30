@@ -100,7 +100,7 @@ public class BlackjackGame {
 
         while (player.calculateHandScore() < 21) {
             if (player.getHand().size() == 2 && bettingSystem.getPlayerBalance() >= bettingSystem.getCurrentBet()) {
-                CheckInput.Choice choice = checkInput.getDoubleDownChoice("Hit (H), Stand (S), or Double Down (D)? ");
+                CheckInput.Choice choice = checkInput.getDoubleDownChoice("Hit (H), Stand (S), Double Down (D), or Quit (Q)? ");
                 if (choice == CheckInput.Choice.H) {
                     player.addCard(deck.dealCard());
                     System.out.println(player);
