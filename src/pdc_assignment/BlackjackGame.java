@@ -110,23 +110,23 @@ public class BlackjackGame {
                     System.out.println(player);
                     doubledDown = true;
                     break; // Player must stand after double down.
-                } else if (choice == CheckInput.Choice.Q) { // Added quit option for player
+                } else if (choice == CheckInput.Choice.Q) { //Quit option for player.
                     System.out.println("You chose to quit the game.");
-                    System.exit(0); // Exits the game
+                    System.exit(0); //Exits the game.
                 } else {
-                    break; // Stand.
+                    break; //Stand.
                 }
             } else {
                 // This is just the regular hit or stand (no double down).
-                CheckInput.Choice choice = checkInput.getChoice("Hit (H), Stand (S), or Quit (Q)? "); // Added Quit (Q)
+                CheckInput.Choice choice = checkInput.getChoice("Hit (H), Stand (S), or Quit (Q)? ");
                 if (choice == CheckInput.Choice.H) {
                     player.addCard(deck.dealCard());
                     System.out.println(player);
                 } else if (choice == CheckInput.Choice.S) {
                     break; // Stand.
-                } else if (choice == CheckInput.Choice.Q) { // Added quit option for player
+                } else if (choice == CheckInput.Choice.Q) { 
                     System.out.println("You chose to quit the game.");
-                    System.exit(0); // Exits the game
+                    System.exit(0); //Exits the game.
                 }
             }
         }
