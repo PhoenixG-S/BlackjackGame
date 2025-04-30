@@ -76,10 +76,10 @@ public class BlackjackGame {
         while (true) {
             System.out.print("Enter your bet: ");
             betAmount = checkInput.getBetAmount("");
-            if (betAmount <= 0) {
-                System.out.println("Bet must be greater than 0.");
-            } else if (betAmount > bettingSystem.getPlayerBalance()) {
-                System.out.println("You don't have enough balance to place that bet.");
+
+            if (!bettingSystem.isValidBet(betAmount)) {
+                System.out.println("Invalid bet amount. Must be between $" + bettingSystem.getMinimumBet() +
+                                   " and $" + bettingSystem.getPlayerBalance());
             } else {
                 break;
             }
@@ -160,6 +160,7 @@ public class BlackjackGame {
         } else {
             System.out.println("It's a tie!");
             FileIO.updatePlayerStats(player.getName(), false, true);
+            bettingSystem.refundBet();
         }
     }
 
