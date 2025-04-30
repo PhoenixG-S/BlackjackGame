@@ -28,12 +28,8 @@ public class BettingSystem {
 
     //Attempt to place a bet. If successful returns true, otherwise returns false.
     public boolean placeBet(double amount) {
-        if (amount < minimumBet) {
-            System.out.println("Bet must be at least " + minimumBet);
-            return false;
-        }
-        if (amount > playerBalance) {
-            System.out.println("Insufficient balance.");
+        if (!isValidBet(amount)) {
+            System.out.println("Invalid bet. Must be at least " + minimumBet + " and within your balance.");
             return false;
         }
         currentBet = amount;
@@ -49,17 +45,46 @@ public class BettingSystem {
         } 
         resetBet();  
     }
+    
+    //Refunds the player if the game resulted in a tie.
+    public void refundBet() {
+        playerBalance += currentBet;
+        System.out.println("It's a tie. Your bet has been refunded: $" + currentBet);
+        resetBet();
+    }
 
     //Allows the player to double down if they have the funds to do so.
     public void doubleDown() {
-    if (playerBalance >= currentBet) {
-        playerBalance -= currentBet;
-        currentBet *= 2;
-        System.out.println("You doubled down! Your new bet is: $" + currentBet);
-    } else {
-        throw new IllegalStateException("Not enough balance to double down.");
+        if (canDoubleDown()) {
+            playerBalance -= currentBet;
+            currentBet *= 2;
+            doubledDown = true;
+            System.out.println("You doubled down! Your new bet is: $" + currentBet);
+        } else {
+            throw new IllegalStateException("Not enough balance to double down.");
+        }
     }
-}
+    
+    //Add funds to players balance.
+    public void addFunds(double amount) {
+        
+        if (amount > 0) {
+            playerBalance += amount;
+            System.out.println("New balance: $" + playerBalance);
+        } else {
+            System.out.println("Invalid amount! Must be greater than 0.");
+        }
+    }
+    
+    //Makes sure the bet is above the minimum bet and also within their
+    public boolean isValidBet(double amount) {
+        return amount >= minimumBet && amount <= playerBalance;
+    }
+
+    //Checks if the player can afford to double their bet.
+    public boolean canDoubleDown() {
+        return playerBalance >= currentBet;
+    }
 
 
 
@@ -89,16 +114,7 @@ public class BettingSystem {
     }
     
     
-    //Add funds to players balance.
-    public void addFunds(double amount) {
-        
-    if (amount > 0) {
-        playerBalance += amount;
-        System.out.println("New balance: $" + playerBalance);
-    } else {
-        System.out.println("Invalid amount! Must be greater than 0.");
-    }
-}
+    
     
 
 }
