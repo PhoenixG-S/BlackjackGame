@@ -21,7 +21,7 @@ public class CheckInput {
                 if (amount >= 0) return amount;
                 System.out.println("Amount must be positive.");
             } catch (NumberFormatException e) {
-                System.out.println("Invalid! Please enter a number.");
+                System.out.print("Invalid! Please Enter a number: ");
             }
         }
     }
