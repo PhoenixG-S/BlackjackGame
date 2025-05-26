@@ -44,22 +44,18 @@ public class GUI extends JFrame {
     private int currentBet;
 
     public GUI() {
-        //Ask player starting money.
         playerMoney = askStartingMoney();
         currentBet = 0;
 
-        // Setup main window
         setTitle("Blackjack Game");
         setSize(550, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); //center window.
+        setLocationRelativeTo(null);
 
-        //Initialize game objects.
         deck = new Deck();
         player = new Player("Player");
         dealer = new Dealer();
 
-        //Setup UI components.
         playerHandArea = new JTextArea(5, 20);
         playerHandArea.setEditable(false);
         dealerHandArea = new JTextArea(5, 20);
@@ -72,7 +68,6 @@ public class GUI extends JFrame {
         standButton = new JButton("Stand");
         doubleDownButton = new JButton("Double Down");
 
-        //Initially disable buttons until bet placed.
         hitButton.setEnabled(false);
         standButton.setEnabled(false);
         doubleDownButton.setEnabled(false);
@@ -81,7 +76,6 @@ public class GUI extends JFrame {
         standButton.addActionListener(e -> playerStands());
         doubleDownButton.addActionListener(e -> playerDoubleDown());
 
-        //Betting panel.
         JPanel bettingPanel = new JPanel();
         bettingPanel.setBorder(BorderFactory.createTitledBorder("Place Your Bet"));
         bettingPanel.add(new JLabel("Bet Amount ($):"));
@@ -94,36 +88,38 @@ public class GUI extends JFrame {
         bettingPanel.add(placeBetButton);
         bettingPanel.add(moneyLabel);
 
-        //Player panel.
-        JPanel playerPanel = new JPanel(new BorderLayout());
-        playerPanel.setBorder(BorderFactory.createTitledBorder("Player"));
-        playerPanel.add(new JScrollPane(playerHandArea), BorderLayout.CENTER);
-        playerPanel.add(playerScoreLabel, BorderLayout.SOUTH);
-
-        //Dealer panel.
+        //Dealer panel on the left.
         JPanel dealerPanel = new JPanel(new BorderLayout());
         dealerPanel.setBorder(BorderFactory.createTitledBorder("Dealer"));
         dealerPanel.add(new JScrollPane(dealerHandArea), BorderLayout.CENTER);
         dealerPanel.add(dealerScoreLabel, BorderLayout.SOUTH);
 
-        //Buttons panel.
+        //Player panel on the right.
+        JPanel playerPanel = new JPanel(new BorderLayout());
+        playerPanel.setBorder(BorderFactory.createTitledBorder("Player"));
+        playerPanel.add(new JScrollPane(playerHandArea), BorderLayout.CENTER);
+        playerPanel.add(playerScoreLabel, BorderLayout.SOUTH);
+
+        //Button panel below the dealer and player panel.
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
         buttonPanel.add(doubleDownButton);
 
-        //Main panel layout.
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(bettingPanel, BorderLayout.NORTH);
-        mainPanel.add(dealerPanel, BorderLayout.CENTER);
-        mainPanel.add(playerPanel, BorderLayout.SOUTH);
-        mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
+        //Main panel with GridLayout(1 row, 2 columns).
+        JPanel mainPanel = new JPanel(new GridLayout(1, 2));
+        mainPanel.add(dealerPanel);
+        mainPanel.add(playerPanel);
 
-        add(mainPanel);
+        //Frame layout.
+        setLayout(new BorderLayout());
+        add(bettingPanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);  //Dealer on left, Player on right.
+        add(buttonPanel, BorderLayout.SOUTH);
 
         setVisible(true);
     }
-
+    
     //Ask player starting money through input.
     private int askStartingMoney() {
         while (true) {
@@ -199,7 +195,9 @@ public class GUI extends JFrame {
             playerHandArea.append(c.toString() + "\n");
         }
         playerScoreLabel.setText("Score: " + player.calculateHandScore());
-
+        
+        playerHandArea.revalidate();
+        playerHandArea.repaint();
         //Dealer shows only first card until round ends.
         dealerHandArea.setText("");
         if (dealer.getHand().size() > 0) {
