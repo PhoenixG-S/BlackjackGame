@@ -35,6 +35,7 @@ public class GUI extends JFrame {
 
     private JTextField betField;
     private JButton placeBetButton;
+    private JButton addMoneyButton;
     private JLabel moneyLabel;
     private JLabel statsLabel;
 
@@ -98,6 +99,8 @@ public class GUI extends JFrame {
         betField.setToolTipText("Enter amount to bet (max $" + playerMoney + ")");
         placeBetButton = new JButton("Place Bet");
         placeBetButton.addActionListener(e -> placeBet());
+        addMoneyButton = new JButton("Add Money");
+        addMoneyButton.addActionListener(e -> addMoney());
         moneyLabel = new JLabel("Money: $" + playerMoney);
         statsLabel = new JLabel();
         statsLabel.setBorder(null);
@@ -105,6 +108,7 @@ public class GUI extends JFrame {
 
         bettingPanel.add(betField);
         bettingPanel.add(placeBetButton);
+        bettingPanel.add(addMoneyButton);
         bettingPanel.add(moneyLabel);
         bettingPanel.add(statsLabel);
 
@@ -136,7 +140,6 @@ public class GUI extends JFrame {
     }
 
     private String askPlayerName() {
-        
         while (true) {
             String name = JOptionPane.showInputDialog(this, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
             if (name == null) System.exit(0);
@@ -147,7 +150,6 @@ public class GUI extends JFrame {
     }
 
     private int askStartingMoney() {
-        
         while (true) {
             String input = JOptionPane.showInputDialog(this, "Enter your starting money:", "Starting Money", JOptionPane.QUESTION_MESSAGE);
             if (input == null) System.exit(0);
@@ -161,8 +163,33 @@ public class GUI extends JFrame {
         }
     }
 
+    private void addMoney() {
+        while (true) {
+            String input = JOptionPane.showInputDialog(this, "Enter amount to add:", "Add Money", JOptionPane.QUESTION_MESSAGE);
+            if (input == null) return; // Cancel pressed, do nothing
+            try {
+                int amount = Integer.parseInt(input);
+                if (amount > 0) {
+                    playerMoney += amount;
+                    moneyLabel.setText("Money: $" + playerMoney);
+                    betField.setToolTipText("Enter amount to bet (max $" + playerMoney + ")");
+                    // Re-enable betting if previously disabled due to no funds
+                    if (!placeBetButton.isEnabled()) {
+                        placeBetButton.setEnabled(true);
+                        betField.setEditable(true);
+                    }
+                    JOptionPane.showMessageDialog(this, "Added $" + amount + " to your balance.");
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please enter a positive number.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid input. Please enter a number.");
+            }
+        }
+    }
+
     private void placeBet() {
-        
         try {
             int bet = Integer.parseInt(betField.getText());
             if (bet <= 0) {
@@ -170,7 +197,12 @@ public class GUI extends JFrame {
                 return;
             }
             if (bet > playerMoney) {
-                JOptionPane.showMessageDialog(this, "You don't have enough money for that bet.");
+                int response = JOptionPane.showConfirmDialog(this,
+                    "You don't have enough money for that bet. Would you like to add more money?",
+                    "Insufficient Funds", JOptionPane.YES_NO_OPTION);
+                if (response == JOptionPane.YES_OPTION) {
+                    addMoney();
+                }
                 return;
             }
 
@@ -195,7 +227,6 @@ public class GUI extends JFrame {
     }
 
     private void startNewRound() {
-        
         deck.reShuffle();
         player.clearHand();
         dealer.clearHand();
@@ -207,7 +238,6 @@ public class GUI extends JFrame {
     }
 
     private void updateDisplay() {
-        
         playerHandArea.setText("");
         for (Card c : player.getHand()) {
             playerHandArea.append(c.toString() + "\n");
@@ -225,7 +255,6 @@ public class GUI extends JFrame {
     }
 
     private void playerHits() {
-        
         player.addCard(deck.dealCard());
         updateDisplay();
 
@@ -241,9 +270,13 @@ public class GUI extends JFrame {
     }
 
     private void playerDoubleDown() {
-        
         if (playerMoney < currentBet) {
-            JOptionPane.showMessageDialog(this, "Not enough money to double down.");
+            int response = JOptionPane.showConfirmDialog(this,
+                "Not enough money to double down. Would you like to add more money?",
+                "Insufficient Funds", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                addMoney();
+            }
             return;
         }
 
@@ -265,7 +298,6 @@ public class GUI extends JFrame {
     }
 
     private void dealerPlay() {
-        
         revealDealerHand();
 
         while (dealer.calculateHandScore() < 17) {
@@ -293,7 +325,6 @@ public class GUI extends JFrame {
     }
 
     private void revealDealerHand() {
-        
         dealerHandArea.setText("");
         for (Card c : dealer.getHand()) {
             dealerHandArea.append(c.toString() + "\n");
@@ -302,7 +333,6 @@ public class GUI extends JFrame {
     }
 
     private void endRound(boolean playerWon) {
-        
         hitButton.setEnabled(false);
         standButton.setEnabled(false);
         doubleDownButton.setEnabled(false);
@@ -320,7 +350,6 @@ public class GUI extends JFrame {
     }
 
     private void endRoundNeutral() {
-        
         hitButton.setEnabled(false);
         standButton.setEnabled(false);
         doubleDownButton.setEnabled(false);
@@ -333,7 +362,24 @@ public class GUI extends JFrame {
     }
 
     private void askReplay() {
-        
+        if (playerMoney <= 0) {
+            int response = JOptionPane.showConfirmDialog(this,
+                "You have no money left. Would you like to add more money to continue playing?",
+                "Game Over", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                addMoney();
+            } else {
+                updateStatsLabel();
+                statsLabel.setVisible(true);
+                hitButton.setEnabled(false);
+                standButton.setEnabled(false);
+                doubleDownButton.setEnabled(false);
+                placeBetButton.setEnabled(false);
+                betField.setEditable(false);
+                return;
+            }
+        }
+
         int result = JOptionPane.showConfirmDialog(this, "Play again?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             currentBet = 0;
@@ -347,7 +393,6 @@ public class GUI extends JFrame {
             playerScoreLabel.setText("");
             dealerScoreLabel.setText("");
             statsLabel.setVisible(false);
-
         } else {
             updateStatsLabel();
             statsLabel.setVisible(true);
@@ -361,13 +406,10 @@ public class GUI extends JFrame {
     }
 
     private void updateStatsLabel() {
-        
         statsLabel.setText("<html>Wins: " + totalWins + "<br>" +
                            "Losses: " + totalLosses + "<br>" +
                            "Ties: " + totalTies + "</html>");
     }
-    
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GUI::new);
